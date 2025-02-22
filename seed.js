@@ -4,6 +4,7 @@ const connectDB = require("./config/db");
 const Product = require("./models/Product");
 const User = require("./models/User");
 const Order = require("./models/Order");
+require("colors");
 
 const sampleProducts = [
   {
