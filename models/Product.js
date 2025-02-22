@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true, unique: true, trim: true }, // Убираем дублирующийся .index()
+    name: { type: String, required: true, unique: true, trim: true },
     price: { type: Number, required: true, min: 0 },
     description: { type: String, required: true, trim: true },
     image: { type: String, required: true, trim: true },
@@ -10,9 +10,6 @@ const productSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-// ❌ УДАЛЯЕМ ЭТУ СТРОКУ, потому что `unique: true` уже создаёт индекс
-// productSchema.index({ name: 1 });
 
 const Product = mongoose.models.Product || mongoose.model("Product", productSchema);
 module.exports = Product;

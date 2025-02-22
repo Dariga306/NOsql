@@ -4,7 +4,6 @@ const Order = require("../models/Order");
 const Product = require("../models/Product");
 const { protect, admin } = require("../middleware/authMiddleware");
 
-// ✅ Создание заказа
 router.post("/", protect, async (req, res) => {
   try {
     const { products } = req.body;
@@ -52,7 +51,6 @@ router.post("/", protect, async (req, res) => {
   }
 });
 
-// ✅ Получение всех заказов пользователя
 router.get("/", protect, async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user.id }).populate("products.product", "name price");
@@ -63,7 +61,6 @@ router.get("/", protect, async (req, res) => {
   }
 });
 
-// ✅ Получение всех заказов (только для админов)
 router.get("/all", protect, admin, async (req, res) => {
   try {
     const orders = await Order.find().populate("user", "name email").populate("products.product", "name price");
@@ -74,7 +71,6 @@ router.get("/all", protect, admin, async (req, res) => {
   }
 });
 
-// ✅ Получение заказа по ID
 router.get("/:id", protect, async (req, res) => {
   try {
     const order = await Order.findById(req.params.id).populate("products.product", "name price");
@@ -90,7 +86,6 @@ router.get("/:id", protect, async (req, res) => {
   }
 });
 
-// ✅ Удаление заказа (только для админов)
 router.delete("/:id", protect, admin, async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);

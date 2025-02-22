@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema(
     email: { 
       type: String, 
       required: true, 
-      unique: true, // ❌ `unique: true` уже создаёт индекс
+      unique: true,
       trim: true, 
       lowercase: true, 
       match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ 
@@ -18,8 +18,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// ❌ УДАЛЯЕМ ДУБЛИРУЮЩИЙСЯ ИНДЕКС
-// userSchema.index({ email: 1 });
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();

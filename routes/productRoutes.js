@@ -4,7 +4,6 @@ const { protect, admin } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// ✅ Создание нового товара (только админ)
 router.post("/", protect, admin, async (req, res) => {
   try {
     const { name, price, description, image, stock } = req.body;
@@ -22,7 +21,6 @@ router.post("/", protect, admin, async (req, res) => {
   }
 });
 
-// ✅ Получение всех товаров
 router.get("/", async (req, res) => {
   try {
     const products = await Product.find();
@@ -32,7 +30,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ✅ Получение одного товара по ID
 router.get("/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -44,7 +41,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// ✅ Обновление товара (только админ)
 router.put("/:id", protect, admin, async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -65,7 +61,6 @@ router.put("/:id", protect, admin, async (req, res) => {
   }
 });
 
-// ✅ Удаление товара (только админ)
 router.delete("/:id", protect, admin, async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);

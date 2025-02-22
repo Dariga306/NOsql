@@ -5,7 +5,6 @@ const Product = require("./models/Product");
 const User = require("./models/User");
 const Order = require("./models/Order");
 
-// Примерные данные для товаров
 const sampleProducts = [
   {
     name: "Laptop",
@@ -38,7 +37,7 @@ const seedDatabase = async () => {
       await Product.deleteMany();
       await User.deleteMany();
       await Order.deleteMany();
-      console.log("✅ Данные удалены!".red.bold);
+      console.log("Данные удалены!".red.bold);
       process.exit();
     }
 
@@ -48,13 +47,12 @@ const seedDatabase = async () => {
 
     await Product.insertMany(sampleProducts);
 
-    console.log("✅ Данные загружены!".green.bold);
+    console.log("Данные загружены!".green.bold);
     process.exit();
   } catch (error) {
-    console.error(`❌ Ошибка: ${error.message}`.red.bold);
+    console.error(`Ошибка: ${error.message}`.red.bold);
     process.exit(1);
   }
 };
 
-// Запуск функции
 seedDatabase();

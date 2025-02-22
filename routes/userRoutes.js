@@ -6,7 +6,6 @@ const { protect, admin } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// ✅ Регистрация пользователя
 router.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -30,7 +29,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// ✅ Вход в систему
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -50,7 +48,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// ✅ Получение списка пользователей (только для админов)
 router.get("/", protect, admin, async (req, res) => {
   try {
     const users = await User.find().select("-password");
@@ -61,7 +58,6 @@ router.get("/", protect, admin, async (req, res) => {
   }
 });
 
-// ✅ Получение профиля пользователя
 router.get("/profile", protect, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
@@ -77,7 +73,6 @@ router.get("/profile", protect, async (req, res) => {
   }
 });
 
-// ✅ Обновление профиля пользователя
 router.put("/profile", protect, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -101,7 +96,6 @@ router.put("/profile", protect, async (req, res) => {
   }
 });
 
-// ✅ Удаление пользователя (только для админов)
 router.delete("/:id", protect, admin, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
