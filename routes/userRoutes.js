@@ -19,8 +19,7 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ message: "Email уже используется" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password: hashedPassword });
+    const user = await User.create({ name, email, password });
 
     res.status(201).json({ message: "Пользователь успешно зарегистрирован" });
   } catch (error) {
@@ -35,11 +34,15 @@ router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email });
 
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if (!user || !(await user.matchPassword(password))) {
       return res.status(401).json({ message: "Неверный email или пароль" });
     }
 
-    const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: "3h" });
+    const token = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
+      process.env.JWT_SECRET,
+      { expiresIn: "3h" }
+    );
 
     res.json({ token });
   } catch (error) {
@@ -85,7 +88,7 @@ router.put("/profile", protect, async (req, res) => {
     user.email = req.body.email || user.email;
 
     if (req.body.password) {
-      user.password = await bcrypt.hash(req.body.password, 10);
+      user.password = req.body.password; 
     }
 
     await user.save();
